@@ -18,7 +18,16 @@ api.interceptors.response.use(
   (response: AxiosResponse) => {
     // Update auth tokens from response headers (DeviseTokenAuth pattern)
     if (response.headers) {
-      authTokens.set(response.headers);
+      // Convert Axios headers to a plain object
+      const headers: Record<string, string> = {};
+      Object.entries(response.headers).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          headers[key] = value.join(',');
+        } else if (value !== undefined) {
+          headers[key] = String(value);
+        }
+      });
+      authTokens.set(headers);
     }
     return response;
   },

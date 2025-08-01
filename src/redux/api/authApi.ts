@@ -5,6 +5,7 @@ import type {
   LoginRequest,
   RegisterRequest,
   User,
+  ApiResponse
 } from '@/types/api';
 import { loginSuccess } from '../slices/authSlice';
 import { apiSlice } from './apiSlice';
@@ -24,8 +25,8 @@ export const authApi = apiSlice.injectEndpoints({
 
           // Check if this is a confirmation email response
           if (
-            data?.message?.includes('confirmation') ||
-            data?.message?.includes('confirm')
+            (data as unknown as ApiResponse<any>)?.message?.includes('confirmation') ||
+            (data as unknown as ApiResponse<any>)?.message?.includes('confirm')
           ) {
             throw new Error(
               'A confirmation email has been sent. Please check your email to confirm your account.'
@@ -33,8 +34,9 @@ export const authApi = apiSlice.injectEndpoints({
           }
 
           // Extract tokens from response headers and store them
-          if (meta?.response?.headers) {
-            authTokens.set(meta.response.headers);
+          const response = meta as unknown as { response: { headers: any } };
+          if (response?.response?.headers) {
+            authTokens.set(response.response.headers);
           }
 
           // Dispatch login success action
@@ -64,8 +66,8 @@ export const authApi = apiSlice.injectEndpoints({
 
           // Check if this is a confirmation email response
           if (
-            data?.message?.includes('confirmation') ||
-            data?.message?.includes('confirm')
+            (data as unknown as ApiResponse<any>)?.message?.includes('confirmation') ||
+            (data as unknown as ApiResponse<any>)?.message?.includes('confirm')
           ) {
             throw new Error(
               'A confirmation email has been sent. Please check your email to confirm your account.'
@@ -73,8 +75,9 @@ export const authApi = apiSlice.injectEndpoints({
           }
 
           // Extract tokens from response headers and store them
-          if (meta?.response?.headers) {
-            authTokens.set(meta.response.headers);
+          const response = meta as unknown as { response: { headers: any } };
+          if (response?.response?.headers) {
+            authTokens.set(response.response.headers);
           }
 
           // Dispatch login success action
@@ -103,8 +106,9 @@ export const authApi = apiSlice.injectEndpoints({
           const { data, meta } = await queryFulfilled;
 
           // Extract tokens from response headers and store them
-          if (meta?.response?.headers) {
-            authTokens.set(meta.response.headers);
+          const response = meta as unknown as { response: { headers: any } };
+          if (response?.response?.headers) {
+            authTokens.set(response.response.headers);
           }
 
           // Dispatch login success action
@@ -132,8 +136,9 @@ export const authApi = apiSlice.injectEndpoints({
           const { data, meta } = await queryFulfilled;
 
           // Extract tokens from response headers and store them
-          if (meta?.response?.headers) {
-            authTokens.set(meta.response.headers);
+          const response = meta as unknown as { response: { headers: any } };
+          if (response?.response?.headers) {
+            authTokens.set(response.response.headers);
           }
 
           // Dispatch login success action
